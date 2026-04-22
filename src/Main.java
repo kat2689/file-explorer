@@ -1,7 +1,8 @@
 import java.nio.file.Path;
 
-import myscanner.FileScanner;
 
+import myscanner.FileScanner;
+import FileIndexing.FileIndexing;
 
 public class Main {
 
@@ -9,7 +10,8 @@ public class Main {
         // using path class from java nio file
         Path startPath = Path.of("C:/MY FOLDER/Rishi Folder/Personal Projects");
 
-        FileScanner fileScanner = new FileScanner();
+        FileIndexing fileIndexing=new FileIndexing();
+        FileScanner fileScanner = new FileScanner(fileIndexing);
         fileScanner.scan(startPath);
 
     }

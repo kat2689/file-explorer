@@ -17,5 +17,13 @@ public class FileInfo {
         this.lastModified = lastModified;
         this.fileSize = fileSize;
     }
+   public String getFileName(){
+    return fileName;
+    
+ }
+   public String getPathName(){
+    return fullPath;
+    
+ }
 
 }

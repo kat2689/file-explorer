@@ -7,9 +7,18 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
+
 import FileInfo.FileInfo;
+import FileIndexing.FileIndexing;
 
 public class FileScanner{
+    
+    private FileIndexing index;
+    // so what happening here is, we set the path in main.java and created the instance of fileindexing and then we created the instance of filescanner instance which takes the instance of fileindexing , so till now  we have instance of fileindexing ,and instance of filescanner which have the  attribute of fileindexing , instance of filescanner name is filescanner, now we use the method scan of filescanner class and pass the Path we already set , pass as arguement and inside scan method there is method walkfiletree, walkfiletree this method traverse the path that pass as arguement in depth ( about walkfiletree method ->have two arguement path, anonymous class instance that implement simplefilevisitor )
+    public  FileScanner(FileIndexing index){
+        this.index=index;
+
+    }
     public void scan(Path path) {
        
     
@@ -48,10 +57,16 @@ public class FileScanner{
                             lastModified,
                             fileSize
                     );
-                
+                    index.setFileMap(info);
+
+
+                    
+
+
+            //    index.printFileMap();
                     // For now: print it (later send to index)
-                    System.out.println("this is working");
-                    System.out.println("this is working"+info);
+                    // System.out.println("this is working");
+                    // System.out.println("this is working"+info);
                   
                     return FileVisitResult.CONTINUE;
                 }
