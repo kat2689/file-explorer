@@ -2,6 +2,7 @@ package FileIndexing;
 import FileInfo.FileInfo;
 
 import java.util.List;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,26 +12,44 @@ public class FileIndexing {
     // for eg->hello.class:{{fileinfo instance1},{fileinfo instance2}} because a file can have duplicate name
 
     private  Map<String, List<FileInfo>> fileMap = new HashMap<>();
+    private  Map<String, List<FileInfo>> extMap  = new HashMap<>();
     // this fuction is to push the key and value to map
     public void setFileMap( FileInfo fi) {
         String str=fi.getFileName().toLowerCase();
         fileMap.computeIfAbsent(str, k -> new java.util.ArrayList<>()).add(fi);
     }
+    public void setExtMap(FileInfo fi) {
+        String fileExt = fi.getExtName().toLowerCase();
+        if (fileExt != null) {
+            fileExt = fileExt.toLowerCase();
+        
+
+        }
+      
+
+     if (fileExt == null || fileExt.isEmpty()) {
+        return;
+    }
+        
+    
+      extMap.computeIfAbsent(fileExt, k -> new ArrayList<>()).add(fi);
+    }
     
     public List<FileInfo> search(String name) {
         return fileMap.getOrDefault(name.toLowerCase(), new ArrayList<>());
     }
-    // to print the key(file name ) and (filepath)
-    // public void printFileMap() {
-    //     fileMap.forEach((key, fileList) -> {
-    //         System.out.println("Key: " + key);
-    //         fileList.forEach(file -> {
-    //             System.out.println("  File: " + file.getPathName());
-    //         });
-    //     });
-    // }
+    public List<FileInfo> getExtFileInfo(String str){
+        return extMap.get(str);
+
+    }
+    public List<FileInfo> getNameFileInfo(String str){
+        
+        return fileMap.get(str);
+
+    }
+
+
 
     
     
 }
- 

@@ -58,6 +58,9 @@ public class FileScanner{
                             fileSize
                     );
                     index.setFileMap(info);
+                    index.setExtMap(info);
+                    // index.printFileMap();
+
 
 
                     

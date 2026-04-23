@@ -25,5 +25,8 @@ public class FileInfo {
     return fullPath;
     
  }
+ public String getExtName(){
+  return extension;
+ }
 
 }

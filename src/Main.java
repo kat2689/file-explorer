@@ -1,8 +1,9 @@
 import java.nio.file.Path;
-
+import java.util.Scanner;
 
 import myscanner.FileScanner;
 import FileIndexing.FileIndexing;
+import UserSearch.UserSearch;
 
 public class Main {
 
@@ -13,6 +14,18 @@ public class Main {
         FileIndexing fileIndexing=new FileIndexing();
         FileScanner fileScanner = new FileScanner(fileIndexing);
         fileScanner.scan(startPath);
+        // experiment 
+        
+        // Scanner fileSearch = new Scanner(System.in);
+        // System.out.println("Enter username");
+    
+        // String fileName= fileSearch.nextLine(); 
+        // System.out.println("filename is: " + fileName);  
+       
+        // System.out.println(UserSearch.instantSearch(fileName));
+
+
 
     }
+
 }
