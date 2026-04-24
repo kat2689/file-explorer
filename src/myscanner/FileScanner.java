@@ -66,7 +66,7 @@ public class FileScanner{
                     
 
 
-            //    index.printFileMap();
+               index.printFileMap();
                     // For now: print it (later send to index)
                     // System.out.println("this is working");
                     // System.out.println("this is working"+info);

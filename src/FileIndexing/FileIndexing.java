@@ -35,9 +35,7 @@ public class FileIndexing {
       extMap.computeIfAbsent(fileExt, k -> new ArrayList<>()).add(fi);
     }
     
-    public List<FileInfo> search(String name) {
-        return fileMap.getOrDefault(name.toLowerCase(), new ArrayList<>());
-    }
+  
     public List<FileInfo> getExtFileInfo(String str){
         return extMap.get(str);
 
@@ -47,6 +45,22 @@ public class FileIndexing {
         return fileMap.get(str);
 
     }
+    public List<FileInfo> partialFileInfo(String str) {
+        String search = str.toLowerCase();
+    
+        return fileMap.entrySet().stream()
+                .filter(entry -> entry.getKey().toLowerCase().contains(search))
+                .flatMap(entry -> entry.getValue().stream())
+                .toList();
+    }
+    public void printFileMap() {
+            fileMap.forEach((key, fileList) -> {
+                System.out.println("Key: " + key);
+                fileList.forEach(file -> {
+                    System.out.println("  File: " + file.getPathName());
+                });
+            });
+        }
 
 
 

@@ -14,13 +14,16 @@ public class Main {
         FileIndexing fileIndexing=new FileIndexing();
         FileScanner fileScanner = new FileScanner(fileIndexing);
         fileScanner.scan(startPath);
+
         // experiment 
         
-        // Scanner fileSearch = new Scanner(System.in);
-        // System.out.println("Enter username");
+        Scanner fileSearch = new Scanner(System.in);
+        System.out.println("Enter filename");
     
-        // String fileName= fileSearch.nextLine(); 
-        // System.out.println("filename is: " + fileName);  
+        String fileName= fileSearch.nextLine(); 
+     
+        UserSearch userSearch=new UserSearch(fileIndexing);
+        userSearch.searchFile(fileName);
        
         // System.out.println(UserSearch.instantSearch(fileName));
 
