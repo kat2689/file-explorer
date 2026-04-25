@@ -2,12 +2,12 @@ package FileIndexing;
 import FileInfo.FileInfo;
 
 import java.util.List;
-import java.io.StringReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileIndexing {
+public class FileIndexing implements Serializable {
     // this map store key(filename) and value(fileinfo class instance) 
     // for eg->hello.class:{{fileinfo instance1},{fileinfo instance2}} because a file can have duplicate name
 

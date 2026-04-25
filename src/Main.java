@@ -11,7 +11,7 @@ public class Main {
         // using path class from java nio file
         Path startPath = Path.of("C:/MY FOLDER/Rishi Folder/Personal Projects");
 
-        FileIndexing fileIndexing=new FileIndexing();
+        FileIndexing fileIndexing=new FileIndexing();         
         FileScanner fileScanner = new FileScanner(fileIndexing);
         fileScanner.scan(startPath);
 

@@ -1,6 +1,8 @@
 package FileInfo;
 
-public class FileInfo {
+import java.io.Serializable;
+
+public class FileInfo implements Serializable {
     private String fileName;
     private String fullPath;
     private String extension;
