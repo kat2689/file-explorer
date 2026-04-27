@@ -13,6 +13,14 @@ public class UserSearch {
         this.index=index;
 
     }
+    public List<FileInfo> partialSearch(String file){
+        
+        System.out.println("PARTIAL");
+        System.out.println(index.partialFileInfo(file));
+
+        return index.partialFileInfo(file);
+
+    }
 
 
     public  List<FileInfo>  searchFile(String file){
@@ -22,7 +30,7 @@ public class UserSearch {
             System.out.println( index.getExtFileInfo(file));
             return index.getExtFileInfo(file);
         }
-         else if (file.contains(".")){
+         else {
             System.out.println("EXACT");
             System.out.println( index.getNameFileInfo(file));
             return index.getNameFileInfo(file);
@@ -30,16 +38,7 @@ public class UserSearch {
 
     
          }
-         else{ 
-
-            System.out.println("PARTIAL");
-            System.out.println(index.partialFileInfo(file));
-
-            return index.partialFileInfo(file);
-          
-
-         }
-     
+        
 
 
 

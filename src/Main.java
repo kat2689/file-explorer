@@ -13,77 +13,150 @@ import CacheManager.CacheManager;
 public class Main {
 
     public static void main(String[] args) {
-        File file = new File("index.dat");
-        FileIndexing fileIndexing;
+        String userWantedFile = "pw_physics";
+
+        CacheManager cacheManager = new CacheManager();
+
+        FileIndexing fileIndexing = loadIndex(cacheManager);
+
+        List<FileInfo> fileInfo = searchFromCache(fileIndexing, userWantedFile);
+
+        if (fileInfo == null || fileInfo.isEmpty()) {
+            fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile);
+        }
+
+        printResult(fileInfo);
+
         
+
        
-        CacheManager cacheManager= new CacheManager();
-        UserSearch userSearch;
-        String userWantedFile="hello.class";
-
-
-        
-
-        if (file.exists()) {
-        System.out.println("Cache exists");
-        List<FileInfo> fileInfo = null;
-       
-        fileIndexing=cacheManager.loadCache(); 
-        
-        if(fileIndexing!=null){
-             userSearch=new UserSearch(fileIndexing) ;
-       
-       fileInfo= userSearch.searchFile(userWantedFile);
-    }
-       if(fileInfo==null|| fileInfo.isEmpty()){
-
-
-
-
-
-
-
-
-
-       }else{
-        System.out.println(fileInfo);
-       }
-
-    
-
-    
-
-
-
-    } else{
-        Path startPath = Path.of("C:/MY FOLDER/Rishi Folder/Personal Projects");
-        fileIndexing=new FileIndexing();        
-        FileScanner fileScanner = new FileScanner(fileIndexing);
-        fileScanner.scan(startPath);
-         cacheManager.createCacheFile(fileIndexing);
-         
-        
-
-
-
-    }
         // using path class from java nio file
        
 
-        // experiment 
-        
-        // Scanner fileSearch = new Scanner(System.in);
-        // System.out.println("Enter filename");
     
-        // String fileName= fileSearch.nextLine(); 
-     
-        // UserSearch userSearch=new UserSearch(fileIndexing);
-        // userSearch.searchFile(fileName);
-       
-        // System.out.println(UserSearch.instantSearch(fileName));
+}
 
 
 
+
+
+    public static FileIndexing loadIndex(CacheManager cacheManager) {
+
+        File file = new File("index.dat");
+
+        if (file.exists()) {
+
+            System.out.println("Cache exists");
+
+            FileIndexing loaded = cacheManager.loadCache();
+
+            if (loaded != null) {
+                return loaded;
+            }
+        }
+
+        System.out.println("Creating new cache...");
+
+        FileIndexing fileIndexing = new FileIndexing();
+
+        FileScanner fileScanner = new FileScanner(fileIndexing);
+
+        fileScanner.scan(
+                Path.of("C:/MY FOLDER/Rishi Folder/Personal Projects")
+        );
+        cacheManager.createCacheFile(fileIndexing);
+    
+
+        return fileIndexing;
     }
 
+
+
+
+    
+    public static List<FileInfo> searchFromCache(FileIndexing fileIndexing, String query) {
+
+        if (fileIndexing == null || fileIndexing.isEmpty()) {
+            return null;
+        }
+
+        UserSearch userSearch = new UserSearch(fileIndexing);
+
+        return userSearch.searchFile(query);
+    }
+
+
+
+
+    public static List<FileInfo> handleNoResult(FileIndexing fileIndexing,
+        CacheManager cacheManager,
+        String query) {
+
+             
+            
+            
+                // exact file search like hello.java
+                if (query.contains(".")) {
+
+                FileScanner fileScanner = new FileScanner(fileIndexing);
+
+                fileScanner.scanQuery(
+                Path.of("C:/MY FOLDER/Rishi Folder"),
+                query
+                );
+
+                cacheManager.createCacheFile(fileIndexing);
+
+                UserSearch userSearch = new UserSearch(fileIndexing);
+
+                return userSearch.searchFile(query);
+                }
+                else {
+
+                    if (!fileIndexing.isEmpty()) {
+        
+                        UserSearch userSearch = new UserSearch(fileIndexing);
+        
+                        return userSearch.partialSearch(query);
+                    }else{
+
+                            FileScanner fileScanner = new FileScanner(fileIndexing);
+
+                            fileScanner.scan(
+                                Path.of("C:/MY FOLDER/Rishi Folder")
+                            );
+
+                            cacheManager.createCacheFile(fileIndexing);
+                            UserSearch userSearch = new UserSearch(fileIndexing);
+    
+                            return userSearch.partialSearch(query);
+                        }
+
+                    }
+                
+                
+        
+               
+            }
+
+
+
+
+            public static void printResult(List<FileInfo> fileInfo) {
+
+                if (fileInfo == null || fileInfo.isEmpty()) {
+                    System.out.println("No file found");
+                } else {
+                    System.out.println(fileInfo.get(0).getFileName());
+                }
+            }
+
+
+
+
+
 }
+
+
+
+

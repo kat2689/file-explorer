@@ -62,7 +62,9 @@ public class FileIndexing implements Serializable {
             });
         }
 
-
+        public boolean isEmpty() {
+            return fileMap.isEmpty() && extMap.isEmpty();
+        }
 
     
     
