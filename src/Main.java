@@ -13,7 +13,7 @@ import CacheManager.CacheManager;
 public class Main {
 
     public static void main(String[] args) {
-        String userWantedFile = "pw_physics";
+        String userWantedFile = ".pdf";
 
         CacheManager cacheManager = new CacheManager();
 

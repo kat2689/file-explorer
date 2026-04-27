@@ -47,11 +47,12 @@ public class FileIndexing implements Serializable {
     }
     public List<FileInfo> partialFileInfo(String str) {
         String search = str.toLowerCase();
+       
     
         return fileMap.entrySet().stream()
                 .filter(entry -> entry.getKey().toLowerCase().contains(search))
                 .flatMap(entry -> entry.getValue().stream())
-                .toList();
+                .toList();  
     }
     public void printFileMap() {
             fileMap.forEach((key, fileList) -> {
