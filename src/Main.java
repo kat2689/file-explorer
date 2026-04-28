@@ -13,7 +13,7 @@ import CacheManager.CacheManager;
 public class Main {
 
     public static void main(String[] args) {
-        String userWantedFile = ".pdf";
+        String userWantedFile = "xtyc.com";
 
         CacheManager cacheManager = new CacheManager();
 
@@ -30,7 +30,7 @@ public class Main {
         
 
        
-        // using path class from java nio file
+   
        
 
     
@@ -117,19 +117,17 @@ public class Main {
         
                         UserSearch userSearch = new UserSearch(fileIndexing);
         
+                        
+                        if( userSearch.partialSearch(query).isEmpty()){
+                            return diskScanner(fileIndexing, cacheManager, query);
+
+                        } 
                         return userSearch.partialSearch(query);
                     }else{
 
-                            FileScanner fileScanner = new FileScanner(fileIndexing);
-
-                            fileScanner.scan(
-                                Path.of("C:/MY FOLDER/Rishi Folder")
-                            );
-
-                            cacheManager.createCacheFile(fileIndexing);
-                            UserSearch userSearch = new UserSearch(fileIndexing);
-    
-                            return userSearch.partialSearch(query);
+                            
+                            
+                            return diskScanner(fileIndexing, cacheManager, query);
                         }
 
                     }
@@ -137,6 +135,22 @@ public class Main {
                 
         
                
+            }
+            public static List<FileInfo> diskScanner(FileIndexing fileIndexing,
+                CacheManager cacheManager,
+                String query){
+                    FileScanner fileScanner = new FileScanner(fileIndexing);
+
+                    fileScanner.scan(
+                        Path.of("C:/MY FOLDER/Rishi Folder")
+                    );
+
+                    cacheManager.createCacheFile(fileIndexing);
+                    UserSearch userSearch = new UserSearch(fileIndexing);
+
+                    return userSearch.partialSearch(query);
+
+                
             }
 
 
