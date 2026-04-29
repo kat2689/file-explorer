@@ -10,30 +10,24 @@ import FileInfo.FileInfo;
 import UserSearch.UserSearch;
 import CacheManager.CacheManager;
 
+
 public class Main {
 
-    public static void main(String[] args) {
-        String userWantedFile = "xtyc.com";
-
-        CacheManager cacheManager = new CacheManager();
-
-        FileIndexing fileIndexing = loadIndex(cacheManager);
-
-        List<FileInfo> fileInfo = searchFromCache(fileIndexing, userWantedFile);
-
-        if (fileInfo == null || fileInfo.isEmpty()) {
-            fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile);
-        }
-
-        printResult(fileInfo);
-
-        
-
-       
    
-       
+public static List<FileInfo> search(String userQuery) {
 
-    
+    CacheManager cacheManager = new CacheManager();
+
+    FileIndexing fileIndexing = loadIndex(cacheManager);
+
+    List<FileInfo> fileInfo = searchFromCache(fileIndexing, userQuery);
+
+    if (fileInfo == null || fileInfo.isEmpty()) {
+        fileInfo = handleNoResult(fileIndexing, cacheManager, userQuery);
+    }
+    printResult(fileInfo);
+
+    return fileInfo;
 }
 
 
@@ -161,7 +155,7 @@ public class Main {
                 if (fileInfo == null || fileInfo.isEmpty()) {
                     System.out.println("No file found");
                 } else {
-                    System.out.println(fileInfo.get(0).getFileName());
+                    System.out.println(fileInfo.get(1).getFileName());
                 }
             }
 
