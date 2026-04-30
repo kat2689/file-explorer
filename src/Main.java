@@ -13,7 +13,7 @@ import CacheManager.CacheManager;
 public class Main {
 
     public static void main(String[] args) {
-        String userWantedFile = ".pdf";
+        String userWantedFile = "hello.java";
 
         CacheManager cacheManager = new CacheManager();
 
@@ -22,6 +22,7 @@ public class Main {
         List<FileInfo> fileInfo = searchFromCache(fileIndexing, userWantedFile);
 
         if (fileInfo == null || fileInfo.isEmpty()) {
+            System.out.println("got it here");
             fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile);
         }
 
@@ -147,6 +148,9 @@ public class Main {
                 if (fileInfo == null || fileInfo.isEmpty()) {
                     System.out.println("No file found");
                 } else {
+                    for (FileInfo fi : fileInfo) {
+                        System.out.println(fi.getPathName());
+                    }
                     System.out.println(fileInfo.get(0).getFileName());
                 }
             }

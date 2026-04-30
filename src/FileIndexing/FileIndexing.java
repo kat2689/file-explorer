@@ -16,6 +16,7 @@ public class FileIndexing implements Serializable {
     // this fuction is to push the key and value to map
     public void setFileMap( FileInfo fi) {
         String str=fi.getFileName().toLowerCase();
+        System.out.println("ADDING FILE: " + fi.getPathName());
         fileMap.computeIfAbsent(str, k -> new java.util.ArrayList<>()).add(fi);
     }
     public void setExtMap(FileInfo fi) {
