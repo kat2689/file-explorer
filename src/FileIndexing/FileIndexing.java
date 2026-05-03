@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FileIndexing implements Serializable {
     // this map store key(filename) and value(fileinfo class instance) 
@@ -13,14 +15,18 @@ public class FileIndexing implements Serializable {
 
     private  Map<String, List<FileInfo>> fileMap = new HashMap<>();
     private  Map<String, List<FileInfo>> extMap  = new HashMap<>();
+    
     // this fuction is to push the key and value to map
     public void setFileMap( FileInfo fi) {
         String str=fi.getFileName().toLowerCase();
+        System.out.println("ADDING FILE: " + fi.getPathName());
         fileMap.computeIfAbsent(str, k -> new java.util.ArrayList<>()).add(fi);
     }
     public void setExtMap(FileInfo fi) {
         String fileExt = fi.getExtName().toLowerCase();
         if (fileExt != null) {
+
+            
             fileExt = fileExt.toLowerCase();
         
 
@@ -66,6 +72,14 @@ public class FileIndexing implements Serializable {
         public boolean isEmpty() {
             return fileMap.isEmpty() && extMap.isEmpty();
         }
+           public Set<String> getVisitedPaths() {
+
+        return fileMap.values()
+                .stream()
+                .flatMap(List::stream)
+                .map(FileInfo::getPathName)
+                .collect(Collectors.toSet());
+    }
 
     
     
