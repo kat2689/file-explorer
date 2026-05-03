@@ -12,31 +12,22 @@ import CacheManager.CacheManager;
 
 public class Main {
 
-    public static void main(String[] args) {
-        String userWantedFile = "xtyc.com";
-
-        CacheManager cacheManager = new CacheManager();
-
-        FileIndexing fileIndexing = loadIndex(cacheManager);
-
-        List<FileInfo> fileInfo = searchFromCache(fileIndexing, userWantedFile);
-
-        if (fileInfo == null || fileInfo.isEmpty()) {
-            Set<String> visitFile=visitedFile(fileIndexing);
-
-            System.out.println("got it here");
-            fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile,visitFile);
-        }
-
-        printResult(fileInfo);
-
-        
-
-       
-   
-       
-
     
+public static List<FileInfo> search(String userQuery) {
+
+    CacheManager cacheManager = new CacheManager();
+
+    FileIndexing fileIndexing = loadIndex(cacheManager);
+
+    List<FileInfo> fileInfo = searchFromCache(fileIndexing, userQuery);
+
+    if (fileInfo == null || fileInfo.isEmpty()) {
+        Set<String> visitFile=visitedFile(fileIndexing);
+        fileInfo = handleNoResult(fileIndexing, cacheManager, userQuery,visitFile);
+    }
+   
+
+    return fileInfo;
 }
 
 
