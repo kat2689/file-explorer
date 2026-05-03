@@ -2,7 +2,7 @@
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
-
+import java.util.Set;
 
 import myscanner.FileScanner;
 import FileIndexing.FileIndexing;
@@ -13,7 +13,7 @@ import CacheManager.CacheManager;
 public class Main {
 
     public static void main(String[] args) {
-        String userWantedFile = "hello.java";
+        String userWantedFile = "pw";
 
         CacheManager cacheManager = new CacheManager();
 
@@ -22,8 +22,10 @@ public class Main {
         List<FileInfo> fileInfo = searchFromCache(fileIndexing, userWantedFile);
 
         if (fileInfo == null || fileInfo.isEmpty()) {
+            Set<String> visitFile=visitedFile(fileIndexing);
+
             System.out.println("got it here");
-            fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile);
+            fileInfo = handleNoResult(fileIndexing, cacheManager, userWantedFile,visitFile);
         }
 
         printResult(fileInfo);
@@ -84,62 +86,64 @@ public class Main {
         UserSearch userSearch = new UserSearch(fileIndexing);
 
         return userSearch.searchFile(query);
-    }
-
-
-
-
-    public static List<FileInfo> handleNoResult(FileIndexing fileIndexing,
-        CacheManager cacheManager,
-        String query) {
-
-             
-            
-            
-                // exact file search like hello.java
-                if (query.contains(".")) {
-
-                FileScanner fileScanner = new FileScanner(fileIndexing);
-
-                fileScanner.scanQuery(
-                Path.of("C:/MY FOLDER/Rishi Folder"),
-                query
-                );
-
-                cacheManager.createCacheFile(fileIndexing);
-
-                UserSearch userSearch = new UserSearch(fileIndexing);
-
-                return userSearch.searchFile(query);
-                }
-                else {
-
-                    if (!fileIndexing.isEmpty()) {
-        
-                        UserSearch userSearch = new UserSearch(fileIndexing);
-        
-                        return userSearch.partialSearch(query);
-                    }else{
-
-                            FileScanner fileScanner = new FileScanner(fileIndexing);
-
-                            fileScanner.scan(
-                                Path.of("C:/MY FOLDER/Rishi Folder")
-                            );
-
-                            cacheManager.createCacheFile(fileIndexing);
-                            UserSearch userSearch = new UserSearch(fileIndexing);
     
-                            return userSearch.partialSearch(query);
-                        }
+    }
+     
+    public static  Set<String> visitedFile(FileIndexing fileIndexing){
+           return fileIndexing.getVisitedPaths();
 
-                    }
-                
-                
-        
-               
+        }
+
+
+
+
+        public static List<FileInfo> handleNoResult(
+            FileIndexing fileIndexing,
+            CacheManager cacheManager,
+            String query,
+            Set<String> visitedFile) {
+    
+        Path basePath = Path.of("C:/MY FOLDER/Rishi Folder");
+    
+        FileScanner fileScanner = new FileScanner(fileIndexing);
+        UserSearch userSearch = new UserSearch(fileIndexing);
+    
+        // exact file search like hello.java
+        if (query.contains(".")) {
+    
+            executeScanAndCache(fileScanner, fileIndexing, cacheManager, basePath, query, visitedFile);
+    
+            return new UserSearch(fileIndexing).searchFile(query);
+        }
+    
+        if (!fileIndexing.isEmpty()) {
+    
+            List<FileInfo> fileInformation = userSearch.partialSearch(query);
+    
+            if (!fileInformation.isEmpty()) {
+                return fileInformation;
             }
+    
+            executeScanAndCache(fileScanner, fileIndexing, cacheManager, basePath, query, visitedFile);
+    
+            return new UserSearch(fileIndexing).partialSearch(query);
+        }
+    
+        executeScanAndCache(fileScanner, fileIndexing, cacheManager, basePath, query, visitedFile);
+    
+        return new UserSearch(fileIndexing).partialSearch(query);
+    }
+    private static void executeScanAndCache(
+        FileScanner fileScanner,
+        FileIndexing fileIndexing,
+        CacheManager cacheManager,
+        Path basePath,
+        String query,
+        Set<String> visitedFile) {
 
+    fileScanner.scanQuery(basePath, query, visitedFile);
+    cacheManager.createCacheFile(fileIndexing);
+}
 
 
 

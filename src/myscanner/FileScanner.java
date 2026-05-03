@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-
+import java.util.Set;
 
 import FileInfo.FileInfo;
 import FileIndexing.FileIndexing;
@@ -117,79 +117,92 @@ public class FileScanner{
 
     }
     // /////////////////////////////////////////////
- public void scanQuery(Path path,String query) {
+    public void scanQuery(Path path,String query, Set<String> visitedFile) {
         
-       
-    
-        try{
-           Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
-          
-               @Override 
-               public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                   String fullPath = file.toString();
-
-                   // 2. file name
-                   String fileName = file.getFileName().toString();
-               
-                   // 3. extension
-                   String extension = "";
-                   int dotIndex = fileName.lastIndexOf(".");
-                   if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-                       extension = fileName.substring(dotIndex); // includes "."
-                   }
-               
-                   // 4. file size
-                   long fileSize = attrs.size();
-               
-                   // 5. last modified time
-                   long lastModified = attrs.lastModifiedTime().toMillis();
-               
-                   // 6. is directory (always false here, but keeping clean design)
-                   boolean isDirectory = false;
-               
-                   // 7. create FileInfo object
-                   FileInfo info = new FileInfo(
-                           fileName,
-                           fullPath,
-                           extension,
-                           isDirectory,
-                           lastModified,
-                           fileSize
-                   );
-                   index.setFileMap(info);
-                   index.setExtMap(info);
-                   if(fileName.equalsIgnoreCase(query))return FileVisitResult.TERMINATE;;
-                   // index.printFileMap();
+        
+            try{
+            Files.walkFileTree(path, new SimpleFileVisitor<Path>(){
+                
+            
+                @Override 
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
 
+                    String fullPath = file.toString();
 
+
+                    if (visitedFile != null && visitedFile.contains(fullPath)) {
+                        System.out.println("visitedpath");
+                        return FileVisitResult.CONTINUE;
+                    }
+            
+                    // mark as visited
+                    visitedFile.add(fullPath);
+                        
+                    
                    
+                    // 2. file name
+                    String fileName = file.getFileName().toString();
+                
+                    // 3. extension
+                    String extension = "";
+                    int dotIndex = fileName.lastIndexOf(".");
+                    if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+                        extension = fileName.substring(dotIndex); // includes "."
+                    }
+                
+                    // 4. file size
+                    long fileSize = attrs.size();
+                
+                    // 5. last modified time
+                    long lastModified = attrs.lastModifiedTime().toMillis();
+                
+                    // 6. is directory (always false here, but keeping clean design)
+                    boolean isDirectory = false;
+                
+                    // 7. create FileInfo object
+                    FileInfo info = new FileInfo(
+                            fileName,
+                            fullPath,
+                            extension,
+                            isDirectory,
+                            lastModified,
+                            fileSize
+                    );
+                    index.setFileMap(info);
+                    index.setExtMap(info);
+                    if(fileName.equalsIgnoreCase(query))return FileVisitResult.TERMINATE;;
+                    // index.printFileMap();
 
 
-             
-                   // For now: print it (later send to index)
-                   // System.out.println("this is working");
-                   // System.out.println("this is working"+info);
-                 
-                   return FileVisitResult.CONTINUE;
-               }
-               @Override
-               public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                   System.err.println("Error accessing file: " + file);
-                   return FileVisitResult.CONTINUE;
-               }
+
+                    
+
+
+                
+                    // For now: print it (later send to index)
+                    // System.out.println("this is working");
+                    // System.out.println("this is working"+info);
+                    
+                    return FileVisitResult.CONTINUE;
+                }
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                    System.err.println("Error accessing file: " + file);
+                    return FileVisitResult.CONTINUE;
+                }
 
 
 
-           });
-        } catch (IOException e) {
-           System.err.println("Error traversing directory: " + e.getMessage());
-       }
+            });
+            } catch (IOException e) {
+            System.err.println("Error traversing directory: " + e.getMessage());
+        }
 
-       
-       
+        
+        
 
 
-   }
+    }
    
 }
