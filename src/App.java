@@ -6,9 +6,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import FileOpener.FileOpener;
 import FileInfo.FileInfo;
@@ -16,22 +20,80 @@ import FileInfo.FileInfo;
 public class App extends Application {
 
     private final SearchService searchService = new SearchService();
+    private File currentDir;
+    private ListView<File> explorer;
+    private ListView<String> results;
 
     @Override
     public void start(Stage stage) {
 
         TextField searchBar = createSearchBar();
         Button searchBtn = createSearchButton();
-        ListView<String> results = createResultsList();
+       results = createResultsList();
+        explorer= new ListView<>();
+
+
+        currentDir = new File("C:\\MY FOLDER\\Rishi Folder\\Personal Projects");
+        loadFiles(currentDir);
+        setupNavigation();
 
         attachEvents(searchBar, searchBtn, results);
 
-        VBox root = new VBox(10, searchBar, searchBtn, results);
+        VBox root = new VBox(10,
+            new Label("Search"),
+            searchBar, searchBtn, results,
+            new Label("Explorer"),
+            explorer
+    );
 
         stage.setTitle("Fast File Search");
         stage.setScene(new Scene(root, 500, 400));
         stage.show();
     }
+
+    // explorer
+    private void loadFiles(File dir) {
+
+        explorer.getItems().clear();
+
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File f : files) {
+            explorer.getItems().add(f);
+        }
+    }
+
+    private void setupNavigation() {
+
+        // Show only file/folder names
+        explorer.setCellFactory(param -> new ListCell<File>() {
+            @Override
+            protected void updateItem(File item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "" : item.getName());
+            }
+        });
+
+        // Double-click to navigate or open
+        explorer.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+
+                File selected = explorer.getSelectionModel().getSelectedItem();
+
+                if (selected == null) return;
+
+                if (selected.isDirectory()) {
+                    currentDir = selected;
+                    loadFiles(currentDir);
+                } else {
+                    FileOpener.open(selected);
+                }
+            }
+        });
+    }
+
+    
 
     // ---------------- UI ----------------
 
@@ -110,6 +172,16 @@ public class App extends Application {
         results.getItems().clear();
 
         List<FileInfo> files = searchService.search(query);
+        if(files==null)return;
+            Map<String, List<FileInfo>> grouped = new LinkedHashMap<>();
+            for(FileInfo f: files){
+                File file = new File(f.getPathName());
+                String folder = file.getParent();
+
+                 grouped.computeIfAbsent(folder, k -> new ArrayList<>()).add(f);
+            }
+
+             
 
         if (files != null) {
             for (FileInfo f : files) {
