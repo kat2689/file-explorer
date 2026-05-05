@@ -5,6 +5,10 @@ import javafx.scene.control.ListView;
 
 import java.io.File;
 
+
+import FileOpener.FileOpener;
+import SearchService.SearchService;
+
 public class ExplorerControl {
 
     private File currentDir;
@@ -45,7 +49,9 @@ public class ExplorerControl {
                 currentDir = selected;
                 loadFiles(explorer, currentDir);
             } else {
-                System.out.println("Open file: " + selected.getAbsolutePath());
+                
+              
+                FileOpener.open(selected);
             }
         });
     }
