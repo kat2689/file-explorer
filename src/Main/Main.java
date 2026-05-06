@@ -147,7 +147,7 @@ public static List<FileInfo> search(String userQuery) {
                     for (FileInfo fi : fileInfo) {
                         System.out.println(fi.getPathName());
                     }
-                    System.out.println(fileInfo.get(0).getFileName());
+                   
                 }
             }
 

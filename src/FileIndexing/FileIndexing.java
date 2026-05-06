@@ -19,7 +19,7 @@ public class FileIndexing implements Serializable {
     // this fuction is to push the key and value to map
     public void setFileMap( FileInfo fi) {
         String str=fi.getFileName().toLowerCase();
-        System.out.println("ADDING FILE: " + fi.getPathName());
+      
         fileMap.computeIfAbsent(str, k -> new java.util.ArrayList<>()).add(fi);
     }
     public void setExtMap(FileInfo fi) {
@@ -60,14 +60,7 @@ public class FileIndexing implements Serializable {
                 .flatMap(entry -> entry.getValue().stream())
                 .toList();  
     }
-    public void printFileMap() {
-            fileMap.forEach((key, fileList) -> {
-                System.out.println("Key: " + key);
-                fileList.forEach(file -> {
-                    System.out.println("  File: " + file.getPathName());
-                });
-            });
-        }
+   
 
         public boolean isEmpty() {
             return fileMap.isEmpty() && extMap.isEmpty();

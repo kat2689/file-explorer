@@ -132,7 +132,7 @@ public class FileScanner{
 
 
                     if (visitedFile != null && visitedFile.contains(fullPath)) {
-                        System.out.println("visitedpath");
+                     
                         return FileVisitResult.CONTINUE;
                     }
             
