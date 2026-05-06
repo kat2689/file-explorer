@@ -1,0 +1,410 @@
+/*
+ * Modern File Explorer — Stylesheet
+ * Clean, flat design inspired by Windows 11 Explorer / macOS Finder.
+ * Color palette: Slate grays, soft blues, clean whites.
+ */
+
+/* ========================================
+   ROOT & GLOBAL STYLES
+   ======================================== */
+
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f8f9fa;
+
+    /* Custom color tokens */
+    -fx-base-bg: #ffffff;
+    -fx-panel-bg: #f1f3f5;
+    -fx-border-color-subtle: #dee2e6;
+    -fx-accent-color: #0078d4;
+    -fx-accent-hover: #106ebe;
+    -fx-text-primary: #212529;
+    -fx-text-secondary: #6c757d;
+    -fx-hover-bg: #e8f0fe;
+    -fx-selected-bg: #cce5ff;
+    -fx-selected-border: #0078d4;
+}
+
+/* ========================================
+   NAVIGATION TOOLBAR
+   ======================================== */
+
+.nav-toolbar {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    -fx-padding: 6 12 6 12;
+    -fx-border-color: transparent transparent #dee2e6 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 4;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-border-color: transparent;
+    -fx-border-radius: 6;
+    -fx-padding: 6 8 6 8;
+    -fx-cursor: hand;
+    -fx-min-width: 32;
+    -fx-min-height: 32;
+    -fx-max-width: 32;
+    -fx-max-height: 32;
+    -fx-alignment: CENTER;
+}
+
+.nav-button:hover {
+    -fx-background-color: #e9ecef;
+}
+
+.nav-button:pressed {
+    -fx-background-color: #dee2e6;
+}
+
+.nav-button:disabled {
+    -fx-opacity: 0.35;
+    -fx-cursor: default;
+}
+
+/* Address Bar */
+.address-bar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #212529;
+    -fx-prompt-text-fill: #adb5bd;
+}
+
+.address-bar:focused {
+    -fx-border-color: #0078d4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.25), 4, 0, 0, 0);
+}
+
+/* Search Field in toolbar */
+.search-field {
+    -fx-background-color: #f1f3f5;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-padding: 4 12 4 28;
+    -fx-font-size: 12px;
+    -fx-pref-width: 220;
+    -fx-prompt-text-fill: #adb5bd;
+}
+
+.search-field:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0078d4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.2), 4, 0, 0, 0);
+}
+
+/* ========================================
+   SPLIT PANE
+   ======================================== */
+
+.split-pane {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 0;
+}
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: #dee2e6;
+    -fx-padding: 0 1.5 0 1.5;
+}
+
+.split-pane > .split-pane-divider:hover {
+    -fx-background-color: #0078d4;
+}
+
+/* ========================================
+   TREE VIEW (Left Panel — Directory Tree)
+   ======================================== */
+
+.tree-panel {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent #dee2e6 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.tree-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-padding: 4 0 4 0;
+}
+
+.tree-view .tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #212529;
+    -fx-padding: 4 8 4 4;
+    -fx-font-size: 13px;
+}
+
+.tree-view .tree-cell:hover {
+    -fx-background-color: #e8f0fe;
+    -fx-background-radius: 4;
+}
+
+.tree-view .tree-cell:selected {
+    -fx-background-color: #cce5ff;
+    -fx-background-radius: 4;
+    -fx-text-fill: #0d47a1;
+}
+
+.tree-view .tree-cell:selected:focused {
+    -fx-background-color: #bbdefb;
+    -fx-text-fill: #0d47a1;
+}
+
+.tree-view .tree-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* Tree disclosure arrow */
+.tree-view .tree-disclosure-node .arrow {
+    -fx-background-color: #6c757d;
+    -fx-shape: "M 0 0 L 6 4 L 0 8 Z";
+}
+
+.tree-view .tree-cell:selected .tree-disclosure-node .arrow {
+    -fx-background-color: #0d47a1;
+}
+
+/* ========================================
+   TABLE VIEW (Right Panel — File List)
+   ======================================== */
+
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+/* Column headers */
+.table-view .column-header-background {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: transparent transparent #dee2e6 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent #e9ecef transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 6 10 6 10;
+    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #495057;
+    -fx-font-weight: 600;
+}
+
+.table-view .column-header:hover {
+    -fx-background-color: #e9ecef;
+}
+
+/* Sort arrow */
+.table-view .column-header .arrow {
+    -fx-background-color: #6c757d;
+}
+
+/* Table rows */
+.table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #f1f3f5 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0;
+    -fx-cell-size: 32;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafbfc;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #e8f0fe;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #cce5ff;
+}
+
+.table-row-cell:selected:focused {
+    -fx-background-color: #bbdefb;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:empty:odd {
+    -fx-background-color: #ffffff;
+}
+
+/* Table cells */
+.table-cell {
+    -fx-text-fill: #212529;
+    -fx-padding: 4 10 4 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #0d47a1;
+}
+
+/* Placeholder when table is empty */
+.table-view .placeholder .label {
+    -fx-text-fill: #adb5bd;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+}
+
+/* ========================================
+   STATUS BAR (Bottom)
+   ======================================== */
+
+.status-bar {
+    -fx-background-color: linear-gradient(to bottom, #f8f9fa, #f1f3f5);
+    -fx-padding: 5 14 5 14;
+    -fx-border-color: #dee2e6 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-spacing: 20;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.status-label {
+    -fx-text-fill: #6c757d;
+    -fx-font-size: 12px;
+}
+
+.status-label-bold {
+    -fx-text-fill: #495057;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+/* ========================================
+   CONTEXT MENU
+   ======================================== */
+
+.context-menu {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 4);
+}
+
+.menu-item {
+    -fx-padding: 6 20 6 12;
+    -fx-background-radius: 4;
+}
+
+.menu-item:hover, .menu-item:focused {
+    -fx-background-color: #e8f0fe;
+}
+
+.menu-item .label {
+    -fx-text-fill: #212529;
+    -fx-font-size: 13px;
+}
+
+.separator:horizontal .line {
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ========================================
+   SCROLL BARS (Slim, modern)
+   ======================================== */
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #c4c4c4;
+    -fx-background-radius: 10;
+    -fx-background-insets: 2;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #a8a8a8;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #8c8c8c;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* Vertical scrollbar width */
+.scroll-bar:vertical {
+    -fx-pref-width: 8;
+    -fx-padding: 2;
+}
+
+/* Horizontal scrollbar height */
+.scroll-bar:horizontal {
+    -fx-pref-height: 8;
+    -fx-padding: 2;
+}
+
+/* ========================================
+   TOOLTIP
+   ======================================== */
+
+.tooltip {
+    -fx-background-color: #343a40;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0, 0, 2);
+}
+
+/* ========================================
+   BREADCRUMB / PATH SEPARATOR
+   ======================================== */
+
+.path-separator {
+    -fx-text-fill: #adb5bd;
+    -fx-font-size: 13px;
+    -fx-padding: 0 2 0 2;
+}
+
+/* ========================================
+   SEARCH RESULTS HIGHLIGHT
+   ======================================== */
+
+.search-result-row {
+    -fx-background-color: #fff9c4;
+}
+
+.search-result-row:hover {
+    -fx-background-color: #fff176;
+}
